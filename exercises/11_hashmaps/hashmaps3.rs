@@ -5,9 +5,9 @@
 // Example: England,France,4,2 (England scored 4 goals, France 2).
 //
 // You have to build a scores table containing the name of the team, the total
-// number of goals the team scored, and the total number of goals the team 
-// conceded. One approach to build the scores table is to use a Hashmap. 
-// The solution is partially written to use a Hashmap, 
+// number of goals the team scored, and the total number of goals the team
+// conceded. One approach to build the scores table is to use a Hashmap.
+// The solution is partially written to use a Hashmap,
 // complete it to pass the test.
 //
 // Make me pass the tests!
@@ -15,10 +15,9 @@
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 use std::collections::HashMap;
 
+#[derive(Default)]
 // A structure to store the goal details of a team.
 struct Team {
     goals_scored: u8,
@@ -40,6 +39,18 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be the number of goals conceded by team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+        [
+            (team_1_name, team_1_score, team_2_score),
+            (team_2_name, team_2_score, team_1_score),
+        ]
+        .iter()
+        .for_each(|(team_name, goals_scored, goals_conceded)| {
+            let team: &mut Team = scores
+                .entry(team_name.clone())
+                .or_insert_with(Team::default);
+            team.goals_scored += goals_scored;
+            team.goals_conceded += goals_conceded;
+        });
     }
     scores
 }
